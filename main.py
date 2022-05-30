@@ -3,7 +3,7 @@ import random
 from paho.mqtt import client as mqtt_client
 
 
-def detect(photo, frame1, frame2):
+def processing(photo, frame1, frame2):
     n= 0
     while cap.isOpened():
         diff = cv2.absdiff(frame1, frame2)
@@ -21,7 +21,7 @@ def detect(photo, frame1, frame2):
         if сontours == ():
             n += 1
             if n == 30:
-                processing(photo, frame2)
+                detect(photo, frame2)
         else:
             n = 0
         cv2.imshow("frame1", frame1)
@@ -31,7 +31,7 @@ def detect(photo, frame1, frame2):
             break
 
 
-def processing(im1, im2):
+def detect(im1, im2):
     im1_res = cv2.resize(im2, (im2.shape[1], im2.shape[0]))
     im2_res = cv2.resize(im1, (im2.shape[1], im2.shape[0]))
     dif = cv2.absdiff(im1_res, im2_res)
@@ -89,7 +89,7 @@ ret_f, model = cap.read()
 ret, before = cap.read()
 ret, after = cap.read()
 
-detect(model, before, after)
+processing(model, before, after)
 
 cap.release()
 cv2.destroyAllWindows()
